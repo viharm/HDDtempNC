@@ -47,9 +47,6 @@ def main ( ag__ArgList ) :
     "ak__Bin" : "/bin/netcat" ,
     "ak__Host" : "localhost" ,
     "ak__Port" : "7634" }
-# st__NetcatBin = "/bin/netcat"
-# st__NetcatHost = "localhost"
-# st__NetcatPort = "7634"
  
   # Initialise internal variables
   bl__DiskFound = False

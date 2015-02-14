@@ -1,7 +1,7 @@
 #!/usr/bin/python
  
 # HDDtempNC
-# Version 01.00.05
+# Version 01.01.00
 # Date: 2015-02-14
 
 # Program to provide numeric string output of HDD temperature using netcat,
@@ -33,21 +33,57 @@
 # ag__ : Arguments
 # ob__ : Object
  
-import sys , getopt
+import sys
+import getopt
+import socket
 import subprocess
- 
+
+def fn__Debug ( ag__DebugTag , ag__DebugMessage ) :
+  global bl__Debug
+  if bl__Debug :
+    print ( repr ( ag__DebugTag ) + ": " + repr ( ag__DebugMessage ) )
+
 def fn__Help ( ) :
-  print ( "Usage:" , sys.argv [ 0 ] , "-d <disk> (--disk=<disk>)" )
+  print ( "Usage:" , sys.argv [ 0 ] , "--param=value" )
+  print ( "-d <disk> (--disk=<disk>)" , "Specify disk to interrogate" )
+  print ( "-t <host> (--target=<host>)" , "Specify target host to interrogate (optional, default localhost)" )
+  print ( "-p <port> (--port=<port>)" , "Specify target port to interrogate (optional, default 7634)" )
   sys.exit ( 2 )
  
 def fn__NotFound ( ) :
   print ( "Disk not found" )
   sys.exit ( 3 )
 
-def fn__Debug ( ag__DebugTag , ag__DebugMessage ) :
-  global bl__Debug
-  if bl__Debug :
-    print str ( ag__DebugTag ) + ": " + str ( ag__DebugMessage )
+def fn__ReadSocket ( ag__Host , ag__Port ) :
+  # Clear connection
+  ob__Socket = None
+  for nm__LoopCounter01 in socket.getaddrinfo (
+    ag__Host ,
+    ag__Port ,
+    socket.AF_NSPEC ,
+    socket.SOCK_STREAM ) :
+    nm__SocketFamily , nm__SocketType , nm__SocketProtocol , st__HostCanonname , ar__SocketAddress = nm__LoopCounter01
+    try :
+      ob__Socket = ( nm__SocketFamily , nm__SocketType , nm__SocketProtocol )
+    except OSError as msg :
+      ob__Socket = None
+      continue
+    
+    try :
+      ob__Socket.connect ( ar__SocketAddress )
+    except OSError as msg :
+      ob__Socket.connect ( )
+      ob__Socket = None
+      continue
+    break
+  if ob__Socket is None :
+    print ( 'Could not open socket' )
+    sys.exit ( 1 )
+  
+  rt__SocketOutput = ob__Socket.recv ( 4096 )
+  ob__Socket.close ( )
+  
+  return repr ( rt__SocketOutput )
 
 # Configure debug mode
 bl__Debug = False
@@ -61,12 +97,15 @@ fn__Debug ( "Initial exit status" , ss__ExitStatus )
 def main ( ag__ArgList ) :
  
   # Initialise the working variables, tweak as per need
-  ar__Netcat = {
-    "ak__Bin" : "/bin/netcat" ,
-    "ak__Host" : "localhost" ,
-    "ak__Port" : "7634" }
+  st__TargetHost = "localhost"
+  st__TargetPort = "7634"
   
-  fn__Debug ( "Netcat array" , ar__Netcat )
+# ar__Netcat = {
+#   "ak__Bin" : "/bin/netcat" ,
+#   "ak__Host" : "192.168.180.108" ,
+#   "ak__Port" : "7634" }
+  
+# fn__Debug ( "Netcat array" , ar__Netcat )
   
   # Initialise internal variables
   bl__DiskFound = False
@@ -78,7 +117,7 @@ def main ( ag__ArgList ) :
   # Scan for script arguments
   try :
     # Parse the supplied arguments
-    ar__ArgOption , ar__ArgRemainder = getopt.getopt ( ag__ArgList , "hd:" , [ "help" , "disk=" ] )
+    ar__ArgOption , ar__ArgRemainder = getopt.getopt ( ag__ArgList , "ht:p:d:" , [ "help" , "target=" , "port=" , "disk=" ] )
     # Call help if no aruments supplied
     if len ( ar__ArgOption ) == 0 :
       fn__Debug ( "No arguments" , "seeking help" )
@@ -99,20 +138,29 @@ def main ( ag__ArgList ) :
     elif st__ArgParam in ( "-d" , "--disk" ) :
       st__DiskRequest = st__ArgValue
       fn__Debug ( "Requested disk" , st__DiskRequest )
-
-  # Run //netcat// using the supplied working variables
-  fn__Debug ( "Ready" , "Now running netcat" )
-  st__HddtempProc = subprocess.Popen (
-    [
-      ar__Netcat [ "ak__Bin" ] ,
-      ar__Netcat [ "ak__Host" ] ,
-      ar__Netcat [ "ak__Port" ] ] ,
-    stdout = subprocess.PIPE ,
-    stderr = subprocess.STDOUT ,
-    universal_newlines = True )
     
-  # Store the output of //netcat//
-  st__HddtempRaw = st__HddtempProc.stdout.read ( )
+    # Check if target host is specified
+    if st__ArgParam in ( "-t" , "--target" ) :
+      st__TargetHost = st__ArgValue
+    if st__ArgParam in ( "-p" , "--port" ) :
+      st__TargetPort = st__ArgValue
+      
+  # Run //netcat// using the supplied working variables
+# fn__Debug ( "Ready" , "Now running netcat" )
+# st__HddtempProc = subprocess.Popen (
+#   [
+#     ar__Netcat [ "ak__Bin" ] ,
+#     ar__Netcat [ "ak__Host" ] ,
+#     ar__Netcat [ "ak__Port" ] ] ,
+#   stdout = subprocess.PIPE ,
+#   stderr = subprocess.STDOUT ,
+#   universal_newlines = True )
+  
+  # Try python internal socket class instead of //netcat//
+  fn__Debug ( "Ready" , "Now reading socket" )
+  st__HddtempRaw = fn__SocketRead ( st__TargetHost , st__TargetPort )
+# # Store the output of //netcat//
+# st__HddtempRaw = st__HddtempProc.stdout.read ( )
   fn__Debug ( "Raw HDDtemp output" , st__HddtempRaw )
   
   # Notify if the requested disk is not found in the //netcat// output
@@ -163,6 +211,5 @@ def main ( ag__ArgList ) :
   return ss__ExitStatus
 
 if __name__ == "__main__" :
-# main ( sys.argv [ 1: ] )
   sys.exit ( main ( sys.argv [ 1: ] ) )
 

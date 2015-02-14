@@ -1,7 +1,7 @@
 #!/usr/bin/python
  
 # HDDtempNC
-# Version 01.00.02
+# Version 01.00.03
 # Date: 2015-02-14
 
 # Program to provide numeric string output of HDD temperature using netcat,
@@ -35,6 +35,19 @@
  
 import sys , getopt
 import subprocess
+ 
+def fn__Help ( ) :
+  print ( "Usage:" , sys.argv [ 0 ] , "-d <disk> (--disk=<disk>)" )
+  sys.exit ( 2 )
+ 
+def fn__NotFound ( ) :
+  print ( "Disk not found" )
+  sys.exit ( 3 )
+
+def fn__Debug ( ag__DebugTag , ag__DebugMessage ) :
+  global bl__Debug
+  if bl__Debug :
+    print ag__DebugTag + ": " + ag__DebugMessage 
 
 # Configure debug mode
 bl__Debug = False
@@ -148,21 +161,8 @@ def main ( ag__ArgList ) :
         else :
           fn__NotFound ( )
   return ss__ExitStatus
- 
-def fn__Help ( ) :
-  print ( "Usage:" , sys.argv [ 0 ] , "-d <disk> (--disk=<disk>)" )
-  sys.exit ( 2 )
- 
-def fn__NotFound ( ) :
-  print ( "Disk not found" )
-  sys.exit ( 3 )
 
-def fn__Debug ( ag__DebugTag , ag__DebugMessage ) :
-  global bl__Debug
-  if bl__Debug :
-    print ag__DebugTag + ": " + ag__DebugMessage 
-
-if __name__ == "__main__" :
+  if __name__ == "__main__" :
 # main ( sys.argv [ 1: ] )
   sys.exit ( main ( sys.argv [ 1: ] ) )
 

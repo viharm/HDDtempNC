@@ -1,7 +1,7 @@
 #!/usr/bin/python
  
 # HDDtempNC
-# Version 01.00.04
+# Version 01.00.05
 # Date: 2015-02-14
 
 # Program to provide numeric string output of HDD temperature using netcat,
@@ -47,7 +47,7 @@ def fn__NotFound ( ) :
 def fn__Debug ( ag__DebugTag , ag__DebugMessage ) :
   global bl__Debug
   if bl__Debug :
-    print ag__DebugTag + ": " + ag__DebugMessage 
+    print str ( ag__DebugTag ) + ": " + str ( ag__DebugMessage )
 
 # Configure debug mode
 bl__Debug = False

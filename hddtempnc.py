@@ -1,7 +1,7 @@
 #!/usr/bin/python
  
 # HDDtempNC
-# Version 01.01.00
+# Version 01.00.01
 # Date: 2015-02-14
 
 # Program to provide numeric string output of HDD temperature using netcat,

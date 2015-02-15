@@ -1,7 +1,7 @@
 #!/usr/bin/python
  
 # HDDtempNC
-# Version 01.01.04
+# Version 01.01.05
 # Date: 2015-02-15
 
 # Program to provide numeric string output of HDD temperature using netcat,
@@ -38,9 +38,10 @@ import sys
 import getopt
 import socket
 import subprocess
+import time
 
 # Configure debug mode
-bl__Debug = False
+bl__Debug = True
 
 # Initialise exit status
 ss__ExitStatus = 1
@@ -102,48 +103,24 @@ def fn__SocketRead ( ag__Host = "localhost" , ag__Port = "7634" ) :
   ob__Socket = None
   fn__Debug ( "Connection object" , "cleared" )
   
-  # Analyse target to fetch socket information
-  fn__Debug ( "Preparing" , "Analysing target" )
-  for nm__LoopCounter01 in socket.getaddrinfo (
-    ag__Host ,
-    ag__Port ,
-    socket.AF_UNSPEC ,
-    socket.SOCK_STREAM ) :
-    nm__SocketFamily , nm__SocketType , nm__SocketProtocol , st__HostCanonname , ar__SocketAddress = nm__LoopCounter01
-    
-    # Debug output
-    fn__Debug ( "Socket family" , nm__SocketFamily )
-    fn__Debug ( "Socket type" , nm__SocketType )
-    fn__Debug ( "Socket protocol" , nm__SocketProtocol )
-    fn__Debug ( "Canonical host name" , st__HostCanonname )
-    fn__Debug ( "Socket address parameters" , ar__SocketAddress )
-    
-    try :
-      ob__Socket = socket.socket ( nm__SocketFamily , nm__SocketType , nm__SocketProtocol )
-      fn__Debug ( "Object" , ob__Socket )
-    except OSError as msg :
-      ob__Socket = None
-      fn__Debug ( "Error creating socket object" , "Object cleared" )
-      continue
-    
-    try :
-      ob__Socket.connect ( ar__SocketAddress )
-    except socket.error as msg :
-      # Clear object on failure
-      ob__Socket = None
-      fn__Debug ( "Socket error" , "Object cleared" )
-      
-      # Set exit status
-      ss__ExitStatus = 111
-      fn__Debug ( "Exit status" , ss__ExitStatus )
-      continue
-    break
+  fn__Debug ( "Connection" , "Attempting to connect" )
+  try :
+    ob__Socket = socket.create_connection ( ( ag__Host , ag__Port ) )
+    fn__Debug ( "Socket object" , ob__Socket )
+    fn__Debug ( "Delay for socket data" , "pausing for 1 s" )
+    time.sleep ( 1 )
+  except OSError as msg :
+    fn__Debug ( "Encountered connection error" , msg )
+    ob__Socket = None
+    fn__Debug ( "Connection" , "Object cleared" )
+
   # Check for null object
   if ob__Socket is None :
-    fn__Debug ( "Null socket object" , "Could not open socket" )
+    fn__Debug ( "Connection object" , "null" )
     print ( 'Could not open socket' )
     
     # Exit gracefully
+    fn__Debug ( "Error encountered" , "exiting gracefully" )
     sys.exit ( ss__ExitStatus )
   
   # Read data from target and save to return variable
@@ -151,6 +128,9 @@ def fn__SocketRead ( ag__Host = "localhost" , ag__Port = "7634" ) :
   fn__Debug ( "Data from target" , rt__SocketOutput )
   
   # Close socket
+  fn__Debug ( "Socket" , "shutting down..." )
+  ob__Socket.shutdown ( socket.SHUT_RDWR )
+  fn__Debug ( "Socket" , "shut down. Now closing..." )
   ob__Socket.close ( )
   fn__Debug ( "Socket" , "closed" )
   
@@ -165,32 +145,37 @@ def main ( ag__ArgList ) :
   global ss__ExitStatus , bl__Debug
 
   # Initialise the working variables
+  fn__Debug ( "Target variables" , "Pre-setting default values" )
   st__TargetHost = "localhost"
+  fn__Debug ( "Target host preset" , st__TargetHost )
   st__TargetPort = "7634"
+  fn__Debug ( "Target port preset" , st__TargetPort )
   
   # Initialise internal variables
+  fn__Debug ( "Internal variables" , "Pre-setting default values" )
   bl__DiskFound = False
-  fn__Debug ( "Initial disk found" , bl__DiskFound )
+  fn__Debug ( "Initialise disk found" , bl__DiskFound )
 
   st__DiskRequest = ""
   fn__Debug ( "Initial disk request" , "blank" )
 
   # Scan for script arguments
+  fn__Debug ( "Script arguments" , "scanning..." )
   try :
     # Parse the supplied arguments
     ar__ArgOption , ar__ArgRemainder = getopt.getopt ( ag__ArgList , "hgt:p:d:" , [ "help" , "debug" , "target=" , "port=" , "disk=" ] )
     # Call help if no aruments supplied
     if len ( ar__ArgOption ) == 0 :
-      fn__Debug ( "No arguments" , "seeking help" )
+      fn__Debug ( "Script arguments" , "None found; seeking help" )
       fn__Help ( )
 
   # Call help if confused
   except getopt.GetoptError :
-    fn__Debug ( "Argument parse error" , "seeking help" )
+    fn__Debug ( "Script arguments" , "parse error; seeking help" )
     fn__Help ( )
  
   # Check supplied arguments/parameters
-  fn__Debug ( "Checking arguments" , "cycling through each" )
+  fn__Debug ( "Checking arguments" , "cycling through each..." )
   for st__ArgParam , st__ArgValue in ar__ArgOption :
     # Call help if requested so
     if st__ArgParam in ( "-h" , "--help" ) :
@@ -224,8 +209,9 @@ def main ( ag__ArgList ) :
   fn__Debug ( "Raw HDDtemp output" , st__HddtempRaw )
   
   # Notify if the requested disk is not found in the //hddtemp// output
+  fn__Debug ( "Disk request" , "searching within HDDtemp data..." )
   if st__HddtempRaw.find ( st__DiskRequest ) == -1 :
-    fn__Debug ( "Disk not found" , "calling function" )
+    fn__Debug ( "Disk not found" , "calling function..." )
     fn__NotFound ( )
     
   # Finally, start parsing the raw //hddtemp// output
@@ -234,41 +220,51 @@ def main ( ag__ArgList ) :
     # //hddtemp// splits each disk info with a double pipe symbol
     # use it split the output into list of disks
     ar__DisksTemp = st__HddtempRaw.split ( "||" )
-    fn__Debug ( "Disks split as follows" , ar__DisksTemp )
+    fn__Debug ( str ( len ( ar__DisksTemp ) ) + " disks found" , ar__DisksTemp )
     # Go through each disk in the list
     for st__DiskInfo in ar__DisksTemp :
       fn__Debug ( "Disk dump" , st__DiskInfo )
       # Search for the requested disk in the list item
-      fn__Debug ( "Current disk dump" , "Comparing with request" )
+      fn__Debug ( "Current disk dump" , "Comparing with request..." )
       if st__DiskInfo.find ( st__DiskRequest ) != -1 :
         # If requested disk found, then split further using //hddtemp//'s default delimiter (|)
-        fn__Debug ( "Current disk dump is requested" , "splitting parameters and values" )
+        fn__Debug ( "Requested disk found in current disk dump" , "splitting parameters and values..." )
         ar__DiskInfo = st__DiskInfo.split ( "|" )
         # Go through each fragment of output for the current disk from the list of disks found
         for st__DiskInfoFragment in ar__DiskInfo :
-          fn__Debug ( "Checking fragment" , st__DiskInfoFragment )
+          fn__Debug ( "Checking fragment against request" , st__DiskInfoFragment )
           # Check if the requested disk matches at least one of the fragments; it should.
           if st__DiskInfoFragment == st__DiskRequest :
-            fn__Debug ( "Checking fragment" , "Comparing with request" )
             # If any one fragment matches, then set the flag for disk found
-            fn__Debug ( "Fragment match" , "Current disk dump match" )
+            fn__Debug ( "Fragment match with disk request" , st__DiskInfoFragment )
             bl__DiskFound = True
-            fn__Debug ( "Disk found flag" , bl__DiskFound )
+            fn__Debug ( "Disk found flag set" , bl__DiskFound )
+            fn__Debug ( "Fragment scan" , "Breaking from loop...." )
+            break
+          else :
+            fn__Debug ( "Fragment" , "not match" )
         # If the disk is found if one of the fragments is "C" (Celsius)
         if bl__DiskFound and "C" in ar__DiskInfo :
           # Locate "C"
           fn__Debug ( "Disk found" , "Locating Celsius symbol C" )
           nm__CelsiusLocation = ar__DiskInfo.index ( "C" )
+          fn__Debug ( "Celsius location in disk dump array" , nm__CelsiusLocation )
           # The temperature is the item just before "C"
           fn__Debug (
             "Temperature value is the preceding fragment from C symbol" ,
-            "Locating numeric value of temperature" )
+            "Locating numeric value of temperature at " + str ( nm__CelsiusLocation - 1 ) )
           print ( ar__DiskInfo [ nm__CelsiusLocation - 1 ] )
           # Set exit status success flag
           ss__ExitStatus = 0
-          fn__Debug ( "Setting success flag" , ss__ExitStatus )
+          fn__Debug ( "Success flag set" , ss__ExitStatus )
         else :
+          fn__Debug ( "Disk request may have been matched" , "But Celsius symbol not found in current disk dump" )
           fn__NotFound ( )
+        
+        # Since the disk was found in the current disk dump, break from the cycle
+        fn__Debug ( "Current disk dump was useful" , "Breaking disk dump cycle" )
+        break
+        
   return ss__ExitStatus
 
 if __name__ == "__main__" :

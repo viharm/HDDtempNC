@@ -1,7 +1,7 @@
 #!/usr/bin/python
  
 # HDDtempNC
-# Version 01.01.05
+# Version 01.01.06
 # Date: 2015-02-15
 
 # Program to provide numeric string output of HDD temperature using netcat,
@@ -109,7 +109,7 @@ def fn__SocketRead ( ag__Host = "localhost" , ag__Port = "7634" ) :
     fn__Debug ( "Socket object" , ob__Socket )
     fn__Debug ( "Delay for socket data" , "pausing for 1 s" )
     time.sleep ( 1 )
-  except OSError as msg :
+  except Exception as msg :
     fn__Debug ( "Encountered connection error" , msg )
     ob__Socket = None
     fn__Debug ( "Connection" , "Object cleared" )

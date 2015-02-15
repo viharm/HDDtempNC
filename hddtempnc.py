@@ -41,7 +41,7 @@ import subprocess
 import time
 
 # Configure debug mode
-bl__Debug = True
+bl__Debug = False
 
 # Initialise exit status
 ss__ExitStatus = 1

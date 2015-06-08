@@ -55,7 +55,7 @@ Command examples
 ```
 
 ## Download ##
-The script is available in the [code](https://github.com/viharm/HDDtempNC/ "HDDtempNC").
+The script is available in the [code](https://github.com/viharm/HDDtempNC/blob/master/hddtempnc.py "HDDtempNC").
 
 ## Discussion & issues ##
 Feature requests, bugs, issues and other comments can be created in [Issues](https://github.com/viharm/HDDtempNC/issues).

@@ -1,28 +1,15 @@
 #!/usr/bin/python
- 
-# HDDtempNC
-# Version 01.02.00
-# Date: 2015-02-15
 
-# Program to provide numeric string output of HDD temperature using netcat,
-# so non-root user can query HDD temperature
- 
-# Depends on //hddtemp// running as daemon on known port (default 7634) on known target host (default localhost)
+## @package   HDDtempNC
+#  \author    Vihar Malviya
+#  \version   01.02.01
+#  \date      2015-02-15
+#  \brief     Program to provide numeric string output of HDD temperature using netcat,
+#             so non-root user can query HDD temperature
+#  \details   Depends on //hddtemp// running as daemon on known port (default 7634) on known target host (default localhost)
+#  \copyright BSD 3-Clause License (see LICENSE or http://opensource.org/licenses/BSD-3-Clause)
 
-# Copyright 2015 Vihar Malviya
 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-
-#    http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
- 
 
 # st__ : String variable
 # nm__ : Numeric (integer or float) variable

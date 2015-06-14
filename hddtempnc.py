@@ -2,15 +2,18 @@
 
 ## @package   HDDtempNC
 #  \author    Vihar Malviya
-#  \version   01.02.01
-#  \date      2015-02-15
-#  \brief     Program to provide numeric string output of HDD temperature using netcat,
-#             so non-root user can query HDD temperature
-#  \details   Depends on //hddtemp// running as daemon on known port (default 7634) on known target host (default localhost)
-#  \copyright BSD 3-Clause License (see LICENSE or http://opensource.org/licenses/BSD-3-Clause)
+#  \version   01.02.02
+#  \date      2015-06-15
+#  \brief     Storage disk temperature querying tool via TCP.
+#  \details   Program to provide numeric string output of HDD temperature
+#             using netcat so non-root user can query HDD temperature
+#             Depends on //hddtemp// running as daemon on known port
+#             (default 7634) on known target host (default localhost)
+#  \copyright Copyright (C) 2015, Vihar Malviya; under BSD 3-Clause License
+#             (see LICENSE or http://opensource.org/licenses/BSD-3-Clause)
 
 
-
+## Description of variable prefixes
 # st__ : String variable
 # nm__ : Numeric (integer or float) variable
 # ar__ : Array variable (associative arrays are dictionaries, non-associative are lists or tuples )

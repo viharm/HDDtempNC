@@ -1,4 +1,10 @@
 # HDDtempNC
+
+[![Version][mg_BadgeVersion]][ln_ReleaseLatest]
+[![License][mg_BadgeLicense]][ln_License]
+[![Issues][mg_BadgeIssues]][ln_Issues]
+![Language][mg_BadgeCodeLang]
+
 *HDDtempNC* is a tool to acquire hard disk drive temperature from *hddtemp*'s network interface.
 
 It is *Python* script and requires a working *Python* environment. It depends a configured and working *hddtemp* daemon on the system whose HDD temperatures are required.
@@ -55,7 +61,7 @@ Command examples
 ```
 
 ## Download ##
-The script is available in the [code](https://github.com/viharm/HDDtempNC/blob/master/hddtempnc.py "HDDtempNC").
+The script is available in the [code][ln_ReleaseLatest].
 
 ## Discussion & issues ##
 Feature requests, bugs, issues and other comments can be created in [Issues](https://github.com/viharm/HDDtempNC/issues).
@@ -74,3 +80,10 @@ Copyright (c) 2015, Vihar Malviya
 
 Licensed under the BSD 3-Clause License. You may obtain a copy of the License at http://opensource.org/licenses/BSD-3-Clause
 
+[mg_BadgeLicense]: https://img.shields.io/badge/license-mod--BSD-blue.svg?style=flat-square
+[mg_BadgeVersion]: https://img.shields.io/badge/version-01.02.02-lightgrey.svg?style=flat-square
+[mg_BadgeIssues]: https://img.shields.io/badge/issues----->-red.svg?style=flat-square
+[mg_BadgeCodeLang]: https://img.shields.io/badge/language-python-yellowgreen.svg?style=flat-square
+[ln_ReleaseLatest]: https://github.com/viharm/HDDtempNC/releases/latest
+[ln_License]: https://github.com/viharm/HDDtempNC/blob/master/LICENCE
+[ln_Issues]: https://github.com/viharm/HDDtempNC/issues

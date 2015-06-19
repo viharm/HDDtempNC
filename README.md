@@ -1,9 +1,10 @@
 # HDDtempNC
 
 [![Version][mg_BadgeVersion]][ln_ReleaseLatest]
-[![License][mg_BadgeLicense]][ln_License]
 [![Issues][mg_BadgeIssues]][ln_Issues]
-![Language][mg_BadgeCodeLang]
+
+[![Language][mg_BadgeCodeLang]][ln_CodeLang]
+[![License][mg_BadgeLicense]][ln_License]
 
 *HDDtempNC* is a tool to acquire hard disk drive temperature from *hddtemp*'s network interface.
 
@@ -80,10 +81,11 @@ Copyright (c) 2015, Vihar Malviya
 
 Licensed under the BSD 3-Clause License. You may obtain a copy of the License at http://opensource.org/licenses/BSD-3-Clause
 
-[mg_BadgeLicense]: https://img.shields.io/badge/license-mod--BSD-blue.svg?style=flat-square
-[mg_BadgeVersion]: https://img.shields.io/badge/version-01.02.02-lightgrey.svg?style=flat-square
-[mg_BadgeIssues]: https://img.shields.io/badge/issues----->-red.svg?style=flat-square
+[mg_BadgeLicense]: https://img.shields.io/github/license/viharm/HDDtempNC.svg?style=flat-square
+[mg_BadgeVersion]: https://img.shields.io/github/release/viharm/HDDtempNC.svg?style=flat-square
+[mg_BadgeIssues]: https://img.shields.io/github/issues/viharm/HDDtempNC.svg?style=flat-square
 [mg_BadgeCodeLang]: https://img.shields.io/badge/language-python-yellowgreen.svg?style=flat-square
 [ln_ReleaseLatest]: https://github.com/viharm/HDDtempNC/releases/latest
 [ln_License]: https://github.com/viharm/HDDtempNC/blob/master/LICENCE
 [ln_Issues]: https://github.com/viharm/HDDtempNC/issues
+[ln_CodeLang]: https://www.python.org/

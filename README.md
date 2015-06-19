@@ -10,8 +10,10 @@
 
 It is *Python* script and requires a working *Python* environment. It depends a configured and working *hddtemp* daemon on the system whose HDD temperatures are required.
 
+
 ## Usage ##
 *HDDtempNC* can be used either from the command line or by calling it in another script/program
+
 
 ### Command syntax ###
 ```
@@ -42,8 +44,10 @@ Following parameters are available:
   
 The sequence of parameters is not important.
 
+
 ### Examples ###
 Command examples
+
 
 #### Long parameters ####
 ```
@@ -53,7 +57,8 @@ Command examples
 /usr/bin/python hddtempnc.py --disk=/dev/sda --port=9000 --target=10.65.0.65
 ```
 
-#### Short parameters ####
+
+#### Short parameters
 ```
 /usr/bin/python3 hddtempnc.py -d /dev/sda
 /usr/bin/python3 hddtempnc.py -t 192.168.0.20 -d /dev/sdb
@@ -61,11 +66,15 @@ Command examples
 /usr/bin/python hddtempnc.py -d /dev/sda -p 9000 -t 10.65.0.65
 ```
 
-## Download ##
+
+## Download
+
 The script is available in the [code][ln_ReleaseLatest].
 
-## Discussion & issues ##
+
+## Support
 Feature requests, bugs, issues and other comments can be created in [Issues](https://github.com/viharm/HDDtempNC/issues).
+
 
 ## Links ##
 * *hddtemp* home
@@ -75,11 +84,17 @@ Feature requests, bugs, issues and other comments can be created in [Issues](htt
 * *hddtemp* guide on *Arch* wiki
   https://wiki.archlinux.org/index.php/Hddtemp
 
+
 ## License
 
-Copyright (c) 2015, Vihar Malviya
+Licensed under the modified BSD (3-clause) license.
 
-Licensed under the BSD 3-Clause License. You may obtain a copy of the License at http://opensource.org/licenses/BSD-3-Clause
+A copy of the license is available...
+
+* in the enclosed [`LICENSE`][ln_License] file.
+* at http://opensource.org/licenses/BSD-3-Clause
+
+
 
 [mg_BadgeLicense]: https://img.shields.io/github/license/viharm/HDDtempNC.svg?style=flat-square
 [mg_BadgeVersion]: https://img.shields.io/github/release/viharm/HDDtempNC.svg?style=flat-square

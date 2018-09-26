@@ -1,12 +1,13 @@
 # HDDtempNC
 
-|           |                                                 |
-|:----------|:------------------------------------------------|
-| Version   | 1.3.0                                           |
-| Download  | https://github.com/viharm/HDDtempNC/releases    |
-| Issues    | https://github.com/viharm/HDDtempNC/issues      |
-| License   | Modified BSD (3-clause)                         |
-| Language  | [Python](https://www.python.org)                |
+|           |                                                     |
+|:----------|:----------------------------------------------------|
+| Version   | 1.3.0                                               |
+| Changes   | https://github.com/viharm/HDDtempNC/pull/4/commits  |
+| Download  | https://github.com/viharm/HDDtempNC/releases        |
+| Issues    | https://github.com/viharm/HDDtempNC/issues          |
+| License   | Modified BSD (3-clause)                             |
+| Language  | [Python](https://www.python.org)                    |
 
 
 *HDDtempNC* is a tool to acquire hard disk drive temperature from *hddtemp*'s network interface.

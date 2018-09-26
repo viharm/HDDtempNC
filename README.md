@@ -2,7 +2,7 @@
 
 |           |                                                     |
 |:----------|:----------------------------------------------------|
-| Version   | 1.3.0                                               |
+| Version   | 1.3.0+                                              |
 | Changes   | https://github.com/viharm/HDDtempNC/pull/4/commits  |
 | Download  | https://github.com/viharm/HDDtempNC/releases        |
 | Issues    | https://github.com/viharm/HDDtempNC/issues          |
